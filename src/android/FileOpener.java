@@ -6,8 +6,7 @@
  * Copyright (c) 2011, IBM Corporation
  */
 
-package com.cordova.plugins.fileopener;
-
+package com.wmjalak.cordova.fileopener;
 import java.io.IOException;
 import java.net.URLConnection;
 
@@ -105,7 +104,8 @@ public class FileOpener extends CordovaPlugin {
         // }
 
         else {
-            String mimeType = URLConnection.guessContentTypeFromName(url);
+            //String mimeType = URLConnection.guessContentTypeFromName(url);
+            String mimeType = "application/vnd.android.package-archive";
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(uri, mimeType);
         }
