@@ -108,6 +108,7 @@ public class FileOpener extends CordovaPlugin {
             String mimeType = "application/vnd.android.package-archive";
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(uri, mimeType);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 
         Intent intentChooser = Intent.createChooser(intent, "Open File");
