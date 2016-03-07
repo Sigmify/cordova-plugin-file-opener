@@ -1,12 +1,5 @@
-/*
- * PhoneGap is available under *either* the terms of the modified BSD license *or* the
- * MIT License (2008). See http://opensource.org/licenses/alphabetical for full text.
- *
- * Copyright (c) 2005-2010, Nitobi Software Inc.
- * Copyright (c) 2011, IBM Corporation
- */
-
 package com.wmjalak.cordova.fileopener;
+
 import java.io.IOException;
 import java.net.URLConnection;
 
@@ -34,7 +27,7 @@ public class FileOpener extends CordovaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
             callbackContext.error(e.getMessage());
-        } catch (RuntimeException e) {  // KLUDGE for Activity Not Found
+        } catch (RuntimeException e) {
             e.printStackTrace();
             callbackContext.error(e.getMessage());
         }
@@ -46,69 +39,17 @@ public class FileOpener extends CordovaPlugin {
         Uri uri = Uri.parse(url);
 
         Intent intent;
-        // Check what kind of file you are trying to open, by comparing the url with extensions.
-        // When the if condition is matched, plugin sets the correct intent (mime) type, 
-        // so Android knew what application to use to open the file
 
-        if (url.contains(".doc") || url.contains(".docx")) {
-            // Word document
+        if(url.contains(".apk")) {
+            // Application package file
             intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "application/msword");
-        } else if(url.contains(".pdf")) {
-            // PDF file
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "application/pdf");
-        } else if(url.contains(".ppt") || url.contains(".pptx")) {
-            // Powerpoint file
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "application/vnd.ms-powerpoint");
-        } else if(url.contains(".xls") || url.contains(".xlsx")) {
-            // Excel file
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "application/vnd.ms-excel");
-        } else if(url.contains(".rtf")) {
-            // RTF file
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "application/rtf");
-        } else if(url.contains(".wav")) {
-            // WAV audio file
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "audio/x-wav");
-        } else if(url.contains(".gif")) {
-            // GIF file
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "image/gif");
-        } else if(url.contains(".jpg") || url.contains(".jpeg")) {
-            // JPG file
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "image/jpeg");
-        } else if(url.contains(".txt")) {
-            // Text file
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "text/plain");
-        } else if(url.contains(".mpg") || url.contains(".mpeg") || url.contains(".mpe") || url.contains(".mp4") || url.contains(".avi")) {
-            // Video files
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "video/*");
-        }
-
-        //if you want you can also define the intent type for any other file
-
-        //additionally use else clause below, to manage other unknown extensions
-        //in this case, Android will show all applications installed on the device
-        //so you can choose which application to use
-
-        // else {
-        //     intent = new Intent(Intent.ACTION_VIEW);
-        //     intent.setDataAndType(uri, "*/*");
-        // }
-
-        else {
-            //String mimeType = URLConnection.guessContentTypeFromName(url);
-            String mimeType = "application/vnd.android.package-archive";
+            intent.setDataAndType(uri, "application/vnd.android.package-archive");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        } else {
+            // Other file types
+            String mimeType = URLConnection.guessContentTypeFromName(url);
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(uri, mimeType);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 
         Intent intentChooser = Intent.createChooser(intent, "Open File");

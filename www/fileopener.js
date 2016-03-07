@@ -3,7 +3,7 @@ module.exports = {
     open: function (url, success, failure) {
         if (!success) {
             success = function () {
-                console.log("success!");
+                console.log("file opened successfully");
             };
         }
         if (!failure) {
