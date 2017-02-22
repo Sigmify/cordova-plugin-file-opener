@@ -5,7 +5,7 @@ Plugin is especially made to handle application package (.apk) installation proc
 
 ## Installation
 
-    cordova plugin add https://github.com/wmjalak/cordova-plugin-file-opener
+    cordova plugin add cordova-plugin-file-opener
 
 ## Supported Platforms
 
